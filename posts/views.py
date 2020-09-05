@@ -3,6 +3,9 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView
 from .models import Post
 from django.db.models import Q, Count, Case, When
+from comments.forms import FormComment
+from comments.models import Comment
+from django.contrib import messages
 
 
 class PostIndex(ListView):
@@ -66,4 +69,21 @@ class PostCategory(PostIndex):
 
 
 class PostSingle(UpdateView):
-    pass
+    model = Post
+    template_name = 'posts/single.html'
+    form_class = FormComment
+    slug_field = 'id'
+    slug_url_kwarg = 'id'
+    context_object_name = 'post'
+
+    def form_valid(seld, form):
+        post = self.get_object()
+        comment = Comment(**form.cleaned_data)
+        comment.comment = post
+
+        if self.request.user.is_authenticated:
+            comment.author = self.request.user
+
+        comment.save()
+        messages.success(self.request, 'Comment sent successfully.')
+        return redirect('post_single', id=post.id)
