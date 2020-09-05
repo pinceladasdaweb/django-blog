@@ -28,11 +28,41 @@ class PostIndex(ListView):
 
 
 class PostSearch(PostIndex):
-    pass
+    template_name = 'posts/search.html'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+
+        term = self.request.GET.get('term', None)
+
+        if not term:
+            return qs
+
+        qs = qs.filter(
+            Q(author__first_name__iexact=term) |
+            Q(title__icontains=term) |
+            Q(content__icontains=term) |
+            Q(excerpt__icontains=term) |
+            Q(category__cat_name__iexact=term)
+        )
+
+        return qs
 
 
 class PostCategory(PostIndex):
-    pass
+    template_name = 'posts/category.html'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+
+        category = self.kwargs.get('category', None)
+
+        if not category:
+            return qs
+
+        qs = qs.filter(category__cat_name__iexact=category)
+
+        return qs
 
 
 class PostSingle(UpdateView):
