@@ -76,6 +76,15 @@ class PostSingle(UpdateView):
     slug_url_kwarg = 'id'
     context_object_name = 'post'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        post = self.get_object()
+        comments = Comment.objects.filter(published=True, post=post.id)
+
+        context['comments'] = comments
+
+        return context
+
     def form_valid(seld, form):
         post = self.get_object()
         comment = Comment(**form.cleaned_data)
