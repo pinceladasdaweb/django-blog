@@ -9,7 +9,7 @@ class Comment(models.Model):
     email = models.EmailField()
     comment = models.TextField()
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, blank=True, null=True)
     date = models.DateTimeField(default=timezone.now)
     published = models.BooleanField(default=False)
 
