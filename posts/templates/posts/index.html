@@ -17,8 +17,8 @@
                 <p class="card-text">
                     <small class="text-muted">
                         {{ post.date | naturalday | title }}
-                        | {{ post.count_comments }} comments |
-                        {{ post.category }}
+                        | <a href="{% url 'post_single' post.id %}#send_comment">{{ post.count_comments }} comments |</a>
+                        <a href="{% url 'post_category' post.category %}">{{ post.category }}</a>
                     </small>
                 </p>
 
