@@ -86,12 +86,12 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('SQL_ENGINE', 'django.db.backends.postgresql_psycopg2'),
-        'NAME': os.environ.get('DB_NAME', 'djangoblog'),
-        'USER': os.environ.get('DB_USER', 'pedrorogerio'),
+        'ENGINE': os.environ.get('SQL_ENGINE', ''),
+        'NAME': os.environ.get('DB_NAME', ''),
+        'USER': os.environ.get('DB_USER', ''),
         'PASSWORD': os.environ.get('DB_PASS', ''),
-        'HOST': os.environ.get('HOST', 'localhost'),
-        'PORT': os.environ.get('PORT', '5432')
+        'HOST': os.environ.get('HOST', ''),
+        'PORT': os.environ.get('PORT', '')
     }
 }
 
